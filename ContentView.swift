@@ -12,6 +12,7 @@ struct ContentView: View {
     
     @State private var heliPosition = CGPoint(x:100, y:100)
     @State private var obstaclePosition = CGPoint(x:1000, y:300)
+    @State private var isPaused = false
     
     @State var timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
 
@@ -32,6 +33,9 @@ struct ContentView: View {
                         .onReceive(self.timer) {_ in
                             self.obstacleMove()
                             }
+                    
+                    self.isPaused ? Button ("Restart") {self.resume()} : nil
+                    
                 }
                         .frame(width: geo.size.width, height: geo.size.height)
                         .background(Color.black)
@@ -69,11 +73,14 @@ struct ContentView: View {
     
     func resume() {
         self.timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+        self.obstaclePosition.x = 1000 // Move the obstacle to the original position
+        self.heliPosition = CGPoint(x: 100, y: 100)
     }
     
     func collisionDetection() {
         if abs(heliPosition.x - obstaclePosition.x) < (25 + 10) && abs(heliPosition.y - obstaclePosition.y) < (25 + 100) {
             self.pause()
+            self.isPaused = true
         }
     }
 }
