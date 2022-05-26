@@ -37,7 +37,9 @@ struct ContentView: View {
     }
     
     func gravity() {
+        withAnimation{
         self.heliPosition.y += 50
+        }
     }
     func obstacleMove() {
         self.obstaclePosition.x -= 50
