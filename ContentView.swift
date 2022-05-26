@@ -30,11 +30,8 @@ struct ContentView: View {
                     Obstacle()
                         .position(self.obstaclePosition)
                         .onReceive(self.timer) {_ in
-                            withAnimation{
                             self.obstacleMove()
                             }
-                    }
-                    
                 }
                         .frame(width: geo.size.width, height: geo.size.height)
                         .background(Color.black)
@@ -55,7 +52,14 @@ struct ContentView: View {
         }
     }
     func obstacleMove() {
-        self.obstaclePosition.x -= 35
+        if self.obstaclePosition.x > 0
+        {
+            withAnimation{
+                self.obstaclePosition.x -= 35
+            }
+        }
+        else
+        { self.obstaclePosition.x = 1000 }
     }
     
 }
