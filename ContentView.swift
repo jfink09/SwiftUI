@@ -13,12 +13,12 @@ struct ContentView: View {
     @State private var heliPosition = CGPoint(x:100, y:100)
     @State private var obstaclePosition = CGPoint(x:1000, y:300)
     
-    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    @State var timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
 
     var body: some View {
                 
             GeometryReader { geo in
-            
+                            
                 ZStack {
                     
                     Helicopter()
@@ -42,6 +42,7 @@ struct ContentView: View {
                         self.heliPosition.y -= 75
                         }
             })
+                    .onReceive(self.timer) {_ in self.collisionDetection() }
             }
         .edgesIgnoringSafeArea(.all)
     }
@@ -62,4 +63,17 @@ struct ContentView: View {
         { self.obstaclePosition.x = 1000 }
     }
     
+    func pause() {
+        self.timer.upstream.connect().cancel()
+    }
+    
+    func resume() {
+        self.timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    }
+    
+    func collisionDetection() {
+        if abs(heliPosition.x - obstaclePosition.x) < (25 + 10) && abs(heliPosition.y - obstaclePosition.y) < (25 + 100) {
+            self.pause()
+        }
+    }
 }
