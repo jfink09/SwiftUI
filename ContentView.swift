@@ -14,7 +14,7 @@ struct ContentView: View {
     @State private var obstaclePosition = CGPoint(x:1000, y:300)
     @State private var isPaused = false
     
-    @State var timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    @State var timer = Timer.publish(every: 0.06, on: .main, in: .common).autoconnect()
 
     var body: some View {
                 
@@ -43,7 +43,7 @@ struct ContentView: View {
                 TapGesture()
                     .onEnded{
                         withAnimation{
-                        self.heliPosition.y -= 75
+                        self.heliPosition.y -= 100
                         }
             })
                     .onReceive(self.timer) {_ in self.collisionDetection() }
@@ -64,7 +64,10 @@ struct ContentView: View {
             }
         }
         else
-        { self.obstaclePosition.x = 1000 }
+        {
+        self.obstaclePosition.x = 1000
+            self.obstaclePosition.y = CGFloat.random(in: 0...500)
+        }
     }
     
     func pause() {
@@ -72,9 +75,10 @@ struct ContentView: View {
     }
     
     func resume() {
-        self.timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+        self.timer = Timer.publish(every: 0.06, on: .main, in: .common).autoconnect()
         self.obstaclePosition.x = 1000 // Move the obstacle to the original position
         self.heliPosition = CGPoint(x: 100, y: 100)
+        self.isPaused = false
     }
     
     func collisionDetection() {
