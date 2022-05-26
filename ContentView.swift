@@ -13,6 +13,7 @@ struct ContentView: View {
     @State private var heliPosition = CGPoint(x:100, y:100)
     @State private var obstaclePosition = CGPoint(x:1000, y:300)
     @State private var isPaused = false
+    @State private var score = 0
     
     @State var timer = Timer.publish(every: 0.06, on: .main, in: .common).autoconnect()
 
@@ -34,7 +35,12 @@ struct ContentView: View {
                             self.obstacleMove()
                             }
                     
-                    self.isPaused ? Button ("Restart") {self.resume()} : nil
+                    Text("\(self.score)")
+                        .foregroundColor(.white)
+                        .position(x: geo.size.width - 100, y: geo.size.height / 10)
+                    
+                    self.isPaused ? Button ("Restart") {self.resume()}
+                        .foregroundColor(/*@START_MENU_TOKEN@*/Color.white/*@END_MENU_TOKEN@*/): nil
                     
                 }
                         .frame(width: geo.size.width, height: geo.size.height)
@@ -46,7 +52,10 @@ struct ContentView: View {
                         self.heliPosition.y -= 100
                         }
             })
-                    .onReceive(self.timer) {_ in self.collisionDetection() }
+                    .onReceive(self.timer) {_ in
+                        self.collisionDetection()
+                        self.score += 1
+                }
             }
         .edgesIgnoringSafeArea(.all)
     }
@@ -79,6 +88,7 @@ struct ContentView: View {
         self.obstaclePosition.x = 1000 // Move the obstacle to the original position
         self.heliPosition = CGPoint(x: 100, y: 100)
         self.isPaused = false
+        self.score = 0
     }
     
     func collisionDetection() {
