@@ -12,6 +12,8 @@ struct ContentView: View {
     
     @State private var heliPosition = CGPoint(x:100, y:100)
     @State private var obstaclePosition = CGPoint(x:1000, y:300)
+    @State private var ceilingPosition = CGPoint(x:0, y:10)
+    @State private var floorPosition = CGPoint(x:0, y:405)
     @State private var isPaused = false
     @State private var score = 0
     
@@ -41,6 +43,18 @@ struct ContentView: View {
                     
                     self.isPaused ? Button ("Restart") {self.resume()}
                         .foregroundColor(/*@START_MENU_TOKEN@*/Color.white/*@END_MENU_TOKEN@*/): nil
+                    
+                    Ceiling()
+                    .position(self.ceilingPosition)
+                    .onReceive(self.timer) {_ in
+                        self.ceilingMove()
+                        }
+                    
+                    Floor()
+                    .position(self.floorPosition)
+                    .onReceive(self.timer) {_ in
+                        self.floorMove()
+                        }
                     
                 }
                         .frame(width: geo.size.width, height: geo.size.height)
@@ -78,6 +92,25 @@ struct ContentView: View {
             self.obstaclePosition.y = CGFloat.random(in: 0...500)
         }
     }
+    
+    func ceilingMove() {
+        if self.ceilingPosition.x >= 0
+        {
+            withAnimation{
+                self.ceilingPosition.x = 0
+            }
+        }
+    }
+    
+    func floorMove() {
+        if self.floorPosition.x >= 0
+        {
+            withAnimation{
+                self.floorPosition.x = 0
+            }
+        }
+    }
+
     
     func pause() {
         self.timer.upstream.connect().cancel()
