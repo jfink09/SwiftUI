@@ -42,7 +42,8 @@ struct ContentView: View {
                         .position(x: geo.size.width - 100, y: geo.size.height / 10)
                     
                     self.isPaused ? Button ("Restart") {self.resume()}
-                        .foregroundColor(/*@START_MENU_TOKEN@*/Color.white/*@END_MENU_TOKEN@*/): nil
+                        .foregroundColor(/*@START_MENU_TOKEN@*/Color.white/*@END_MENU_TOKEN@*/)
+                        .font(.system(size: 30)) : nil
                     
                     Ceiling()
                     .position(self.ceilingPosition)
