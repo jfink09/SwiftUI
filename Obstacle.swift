@@ -11,7 +11,7 @@ import SwiftUI
 struct Obstacle: View {
     
     let width: CGFloat = 20
-    let height: CGFloat = 200
+    let height: CGFloat = 120
     
     var body: some View {
         

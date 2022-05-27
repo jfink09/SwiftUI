@@ -125,7 +125,15 @@ struct ContentView: View {
     }
     
     func collisionDetection() {
-        if abs(heliPosition.x - obstaclePosition.x) < (25 + 10) && abs(heliPosition.y - obstaclePosition.y) < (25 + 100) {
+        if abs(heliPosition.x - obstaclePosition.x) < (25 + 10) && abs(heliPosition.y - obstaclePosition.y) < (25 + 60) {
+            self.pause()
+            self.isPaused = true
+        }
+        if abs(heliPosition.x - ceilingPosition.x) < (25 + 1000) && abs(heliPosition.y - ceilingPosition.y) < (25 + 2) {
+            self.pause()
+            self.isPaused = true
+        }
+        if abs(heliPosition.x - floorPosition.x) < (25 + 1000) && abs(heliPosition.y - floorPosition.y) < (25 + 5) {
             self.pause()
             self.isPaused = true
         }
