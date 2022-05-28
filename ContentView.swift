@@ -13,7 +13,7 @@ struct ContentView: View {
     @State private var wbcPosition = CGPoint(x:200, y:700)
     @State private var rbcPosition = CGPoint(x:200, y:450)
     
-    @State var timer = Timer.publish(every: 0.12, on: .main, in: .common).autoconnect()
+    @State var timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
    
     var body: some View {
         
@@ -35,6 +35,14 @@ struct ContentView: View {
             .frame(width: geo.size.width, height: geo.size.height)
             .position(self.wbcPosition)
             .background(Color(#colorLiteral(red: 0.3525061763, green: 0, blue: 0, alpha: 0.9)))
+            
+            .gesture(
+                TapGesture()
+                    .onEnded{
+                        withAnimation{
+                        self.wbcPosition.x -= 100
+                        }
+            })
         }
             .edgesIgnoringSafeArea(.all)
     }
