@@ -9,11 +9,27 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var wbcPosition = CGPoint(x:200, y:700)
+    @State private var rbcPosition = CGPoint(x:250, y:750)
    
     var body: some View {
         
-       WBC(size: 40, color: Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
-        
+        GeometryReader { geo in
+            
+            ZStack {
+                
+                RBC()
+                
+            }
+                
+            RBC()
+            WBC()
+            .frame(width: geo.size.width, height: geo.size.height)
+            .position(self.wbcPosition)
+            .background(Color(#colorLiteral(red: 0.3525061763, green: 0, blue: 0, alpha: 0.9)))
+        }
+            .edgesIgnoringSafeArea(.all)
     }
 }
 

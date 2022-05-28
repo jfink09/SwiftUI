@@ -1,8 +1,8 @@
 //
 //  Pixel.swift
-//  Helicopter
+//  Vascular
 //
-//  Created by Jason Fink on 5/25/22.
+//  Created by Jason Fink on 5/27/22.
 //  Copyright © 2022 Jason. All rights reserved.
 //
 
@@ -13,7 +13,7 @@ struct Pixel: View {
     let color: Color
     
     var body: some View {
-        Rectangle()
+        Circle()
             .frame(width: size, height: size)
             .foregroundColor(color)
     }
