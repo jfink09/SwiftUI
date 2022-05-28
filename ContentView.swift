@@ -40,7 +40,7 @@ struct ContentView: View {
     }
     func gravity() {
         withAnimation{
-        self.wbcPosition.y += -10
+        self.wbcPosition.x += 10
         self.rbcPosition.y += 10
         }
     }
