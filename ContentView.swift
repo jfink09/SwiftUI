@@ -12,7 +12,17 @@ struct ContentView: View {
     var body: some View {
 
         
-        Pixel(size: 50, color: Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
+        GeometryReader { geo in
+            ZStack {
+                        Pixel(size: 50, color: Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
+                        Obstacle()
+            }
+            .edgesIgnoringSafeArea(.all)
+            .frame(width: geo.size.width, height: geo.size.height)
+            .background(Color(#colorLiteral(red: 0.3525061763, green: 0, blue: 0, alpha: 0.9)))
+        }
+        
+
         
     }
 
