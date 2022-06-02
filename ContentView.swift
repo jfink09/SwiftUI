@@ -13,11 +13,12 @@ struct ContentView: View {
     @State private var wbcPosition = CGPoint(x: 200, y: 700)
     @State private var obstPosition = CGPoint(x: 200, y: 100)
     
-    let timer = Timer.publish(every: 0.08, on: .main, in: .common).autoconnect()
+    @State var timer = Timer.publish(every: 0.08, on: .main, in: .common).autoconnect()
 
     var body: some View {
         
         GeometryReader { geo in
+            
             ZStack {
                         Pixel(size: 50, color: Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
                             .position(self.wbcPosition)
@@ -40,6 +41,7 @@ struct ContentView: View {
                     self.wbcPosition.x -= 100
                     }
                 })
+                .onReceive(self.timer) {_ in self.collision()}
         }
         .edgesIgnoringSafeArea(.all)
     }
@@ -61,4 +63,18 @@ struct ContentView: View {
             }
         }
         }
+    
+    func pause() {
+        self.timer.upstream.connect().cancel()
+    }
+    
+    func resume() {
+        self.timer = Timer.publish(every: 0.08, on: .main, in: .common).autoconnect()
+    }
+    
+    func collision() {
+        if abs(wbcPosition.y - obstPosition.y) < (25 + 20) && abs(wbcPosition.x - obstPosition.x) < (25 + 20) {
+            self.pause()
+        }
+    }
 }
