@@ -12,6 +12,8 @@ struct ContentView: View {
     
     @State private var wbcPosition = CGPoint(x: 200, y: 700)
     @State private var obstPosition = CGPoint(x: 200, y: 100)
+    
+    let timer = Timer.publish(every: 0.08, on: .main, in: .common).autoconnect()
 
     var body: some View {
         
@@ -19,12 +21,33 @@ struct ContentView: View {
             ZStack {
                         Pixel(size: 50, color: Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
                             .position(self.wbcPosition)
+                            .onReceive(self.timer) {_ in
+                                self.gravity()
+                            }
+                
                         Obstacle()
                             .position(self.obstPosition)
             }
             .frame(width: geo.size.width, height: geo.size.height)
             .background(Color(#colorLiteral(red: 0.3525061763, green: 0, blue: 0, alpha: 0.9)))
+        .gesture(
+            TapGesture()
+                .onEnded {
+                    withAnimation {
+                    self.wbcPosition.x -= 100
+                    }
+                })
         }
         .edgesIgnoringSafeArea(.all)
+    }
+    
+    func gravity() {
+        withAnimation {
+        self.wbcPosition.x += 20
+        }
+    }
+    
+    func obstMove() {
+        self.obstPosition.y -= 50
     }
 }
