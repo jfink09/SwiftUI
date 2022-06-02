@@ -64,6 +64,7 @@ struct ContentView: View {
         {
             withAnimation {
                  self.obstPosition.x -= 40
+                 self.obstPosition.y = CGFloat.random(in: 0...500)
             }
         }
         }
@@ -81,7 +82,7 @@ struct ContentView: View {
     }
     
     func collision() {
-        if abs(wbcPosition.y - obstPosition.y) < (20 + 15) && abs(wbcPosition.x - obstPosition.x) < (20 + 15) {
+        if abs(wbcPosition.y - obstPosition.y) < (30 + 25) && abs(wbcPosition.x - obstPosition.x) < (30 + 25) {
             self.pause()
             self.isPaused = true
         }
