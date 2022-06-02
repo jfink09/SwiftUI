@@ -22,9 +22,9 @@ struct ContentView: View {
                         Obstacle()
                             .position(self.obstPosition)
             }
-            .edgesIgnoringSafeArea(.all)
             .frame(width: geo.size.width, height: geo.size.height)
             .background(Color(#colorLiteral(red: 0.3525061763, green: 0, blue: 0, alpha: 0.9)))
         }
+        .edgesIgnoringSafeArea(.all)
     }
 }
