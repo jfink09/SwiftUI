@@ -38,7 +38,13 @@ struct ContentView: View {
                     .position(x: geo.size.width - 100, y: geo.size.height / 10)
                     .foregroundColor(.white)
                 
-                self.isPaused ? Button("Restart") {self.resume()} : nil
+                self.isPaused ? Button("Restart") {
+                    self.resume()
+                    
+                }
+                .foregroundColor(.white)
+                .font(.title)
+                : nil
                 
             }
             .frame(width: geo.size.width, height: geo.size.height)
