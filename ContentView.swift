@@ -13,6 +13,7 @@ struct ContentView: View {
     @State private var wbcPosition = CGPoint(x: 100, y: 100) //200, 700
     @State private var obstPosition = CGPoint(x: 700, y: 200)
     @State private var isPaused = false
+    @State private var score = 0
     
     @State var timer = Timer.publish(every: 0.08, on: .main, in: .common).autoconnect()
 
@@ -33,6 +34,10 @@ struct ContentView: View {
                                 self.obstMove()
                             }
                 
+                Text("\(self.score)")
+                    .position(x: geo.size.width - 100, y: geo.size.height / 10)
+                    .foregroundColor(.white)
+                
                 self.isPaused ? Button("Restart") {self.resume()} : nil
                 
             }
@@ -45,7 +50,10 @@ struct ContentView: View {
                     self.wbcPosition.y -= 100
                     }
                 })
-                .onReceive(self.timer) {_ in self.collision()}
+                .onReceive(self.timer) {_ in
+                    self.collision()
+                    self.score += 1
+                }
         }
         .edgesIgnoringSafeArea(.all)
     }
@@ -79,6 +87,7 @@ struct ContentView: View {
         self.obstPosition.x = 1000                      // Move obstacle to starting position
         self.wbcPosition = CGPoint(x: 100, y: 100)      // WBC to starting position
         self.isPaused = false                           // Remove restart button after restarting
+        self.score = 0
     }
     
     func collision() {
