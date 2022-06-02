@@ -12,6 +12,8 @@ struct ContentView: View {
     
     @State private var wbcPosition = CGPoint(x: 100, y: 100) //200, 700
     @State private var obstPosition = CGPoint(x: 700, y: 200)
+    @State private var ceilingPosition = CGPoint(x:0, y:10)
+    @State private var floorPosition = CGPoint(x:0, y:405)
     @State private var isPaused = false
     @State private var score = 0
     
@@ -45,6 +47,18 @@ struct ContentView: View {
                 .foregroundColor(.white)
                 .font(.title)
                 : nil
+                
+                Ceiling()
+                .position(self.ceilingPosition)
+                .onReceive(self.timer) {_ in
+                    self.ceilingMove()
+                    }
+                
+                Floor()
+                .position(self.floorPosition)
+                .onReceive(self.timer) {_ in
+                    self.floorMove()
+                    }
                 
             }
             .frame(width: geo.size.width, height: geo.size.height)
@@ -83,6 +97,24 @@ struct ContentView: View {
         }
         }
     
+    func ceilingMove() {
+        if self.ceilingPosition.x >= 0
+        {
+            withAnimation{
+                self.ceilingPosition.x = 0
+            }
+        }
+    }
+    
+    func floorMove() {
+        if self.floorPosition.x >= 0
+        {
+            withAnimation{
+                self.floorPosition.x = 0
+            }
+        }
+    }
+    
     func pause() {
         self.timer.upstream.connect().cancel()
     }
@@ -98,6 +130,14 @@ struct ContentView: View {
     
     func collision() {
         if abs(wbcPosition.y - obstPosition.y) < (30 + 25) && abs(wbcPosition.x - obstPosition.x) < (30 + 25) {
+            self.pause()
+            self.isPaused = true
+        }
+        if abs(wbcPosition.x - ceilingPosition.x) < (25 + 1000) && abs(wbcPosition.y - ceilingPosition.y) < (25 + 2) {
+            self.pause()
+            self.isPaused = true
+        }
+        if abs(wbcPosition.x - floorPosition.x) < (25 + 1000) && abs(wbcPosition.y - floorPosition.y) < (25 + 5) {
             self.pause()
             self.isPaused = true
         }
