@@ -28,9 +28,7 @@ struct ContentView: View {
                         Obstacle()
                             .position(self.obstPosition)
                             .onReceive(self.timer) {_ in
-                                withAnimation {
                                 self.obstMove()
-                                }
                             }
             }
             .frame(width: geo.size.width, height: geo.size.height)
@@ -53,8 +51,14 @@ struct ContentView: View {
     }
     
     func obstMove() {
-        withAnimation {
-        self.obstPosition.y += 40
+        if self.obstPosition.y > 1000 {
+            self.obstPosition.y = 100
         }
-    }
+        else
+        {
+            withAnimation {
+                 self.obstPosition.y += 40
+            }
+        }
+        }
 }
