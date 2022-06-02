@@ -27,6 +27,11 @@ struct ContentView: View {
                 
                         Obstacle()
                             .position(self.obstPosition)
+                            .onReceive(self.timer) {_ in
+                                withAnimation {
+                                self.obstMove()
+                                }
+                            }
             }
             .frame(width: geo.size.width, height: geo.size.height)
             .background(Color(#colorLiteral(red: 0.3525061763, green: 0, blue: 0, alpha: 0.9)))
@@ -48,6 +53,8 @@ struct ContentView: View {
     }
     
     func obstMove() {
-        self.obstPosition.y -= 50
+        withAnimation {
+        self.obstPosition.y += 40
+        }
     }
 }
