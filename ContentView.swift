@@ -75,8 +75,9 @@ struct ContentView: View {
     func resume() {
         self.timer = Timer.publish(every: 0.08, on: .main, in: .common).autoconnect()
         
-        self.obstPosition.x = 1000 // Move obstacle to starting position
-        self.wbcPosition = CGPoint(x: 100, y: 100)
+        self.obstPosition.x = 1000                      // Move obstacle to starting position
+        self.wbcPosition = CGPoint(x: 100, y: 100)      // WBC to starting position
+        self.isPaused = false                           // Remove restart button after restarting
     }
     
     func collision() {
