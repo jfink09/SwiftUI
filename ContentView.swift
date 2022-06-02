@@ -10,8 +10,9 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var wbcPosition = CGPoint(x: 200, y: 700)
-    @State private var obstPosition = CGPoint(x: 200, y: 100)
+    @State private var wbcPosition = CGPoint(x: 100, y: 100) //200, 700
+    @State private var obstPosition = CGPoint(x: 700, y: 200)
+    @State private var isPaused = false
     
     @State var timer = Timer.publish(every: 0.08, on: .main, in: .common).autoconnect()
 
@@ -31,6 +32,9 @@ struct ContentView: View {
                             .onReceive(self.timer) {_ in
                                 self.obstMove()
                             }
+                
+                self.isPaused ? Button("Restart") {self.resume()} : nil
+                
             }
             .frame(width: geo.size.width, height: geo.size.height)
             .background(Color(#colorLiteral(red: 0.3525061763, green: 0, blue: 0, alpha: 0.9)))
@@ -38,7 +42,7 @@ struct ContentView: View {
             TapGesture()
                 .onEnded {
                     withAnimation {
-                    self.wbcPosition.x -= 100
+                    self.wbcPosition.y -= 100
                     }
                 })
                 .onReceive(self.timer) {_ in self.collision()}
@@ -48,18 +52,18 @@ struct ContentView: View {
     
     func gravity() {
         withAnimation {
-        self.wbcPosition.x += 20
+        self.wbcPosition.y += 20
         }
     }
     
     func obstMove() {
-        if self.obstPosition.y > 1000 {
-            self.obstPosition.y = 100
+        if self.obstPosition.x < 0 {
+            self.obstPosition.x = 1000
         }
         else
         {
             withAnimation {
-                 self.obstPosition.y += 40
+                 self.obstPosition.x -= 40
             }
         }
         }
@@ -73,8 +77,9 @@ struct ContentView: View {
     }
     
     func collision() {
-        if abs(wbcPosition.y - obstPosition.y) < (25 + 20) && abs(wbcPosition.x - obstPosition.x) < (25 + 20) {
+        if abs(wbcPosition.y - obstPosition.y) < (20 + 15) && abs(wbcPosition.x - obstPosition.x) < (20 + 15) {
             self.pause()
+            self.isPaused = true
         }
     }
 }
